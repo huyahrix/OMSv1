@@ -1,3 +1,8 @@
+#  @copyright 2019 © DigiNet
+#  @author ahrix<infjnite@gmail.com>
+#  @create 2019/10/04 10:51
+#  @update 2019/10/14 10:51
+
 from flask_restful import Resource, reqparse
 from werkzeug.security import safe_str_cmp
 from flask_jwt_extended import (
@@ -11,7 +16,7 @@ from flask_jwt_extended import (
 from flask import request,jsonify,Response
 from flask_api import status
 import json
-from .data.user import getUserMenu
+from .data.user_data import getUserMenu
 
 
 class UserMenu(Resource):

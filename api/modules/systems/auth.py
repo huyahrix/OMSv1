@@ -2,6 +2,7 @@
 #  @author Andy Trần Đào Anh
 #  @create 2019/10/04 10:51
 #  @update 2019/10/04 10:51
+
 from flask import request,jsonify,Response
 from flask_api import status
 from flask_restful import Resource, reqparse
@@ -16,9 +17,9 @@ from flask_jwt_extended import (
 )
 import json
 from api.util.decrypt import decryptData
-from api.util.encrypt import encrypt
 from api.util.blacklist import BLACKLIST
-from api.modules.systems.data.user import getUserInfo,verifyPassword,listUser
+from .data.user_data import getUserInfo,verifyPassword,listUser
+# from api.util.encrypt import encrypt
 
 BLANK_ERROR = "'{}' cannot be blank."
 CREATED_SUCCESSFULLY = "User created successfully."
@@ -33,13 +34,13 @@ _user_parser.add_argument(
 class UserLogin(Resource):
     def post(self):
         if request.method == 'POST':
-            print('hash: {}'.format(encrypt()))
             data = request.get_json()
             #data = {"data": encrypt()}
+            # print('hash: {}'.format(data))
             try:
                 plainText = decryptData(data['data'])
                 if plainText:
-                    print(plainText)
+                    # print(plainText)
                     objLog = json.loads(plainText)
                     attemptUserName = objLog['username']
                     attemptPassword = objLog['password']
