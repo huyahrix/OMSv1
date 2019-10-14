@@ -15,7 +15,7 @@ jwt = JWTManager(app)
 register_routes(api)
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0')
+    app.run()
 
 
 if __name__ != '__main__':
