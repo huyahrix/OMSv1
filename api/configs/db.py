@@ -1,4 +1,4 @@
-import os
+import logging,sys,os
 import pyodbc as db
 from api.configs.config  import config_by_name
 
@@ -14,10 +14,12 @@ port = 1433
 # for item in db.drivers():
 #     print(item)
 
-# driver = "ODBC Driver 17 for SQL Server"
-driver = "ODBC Driver 13 for SQL Server" # centos 7
-connectionstring = f'DRIVER={driver};SERVER={server};UID={username};PWD={password};DATABASE={database}'
-print(connectionstring)
 
+if bool("win" in sys.platform):
+    driver = "ODBC Driver 17 for SQL Server"
+else:
+    driver = "ODBC Driver 13 for SQL Server" # centos 7
+connectionstring = f'DRIVER={driver};SERVER={server};UID={username};PWD={password};DATABASE={database}'
+print(' * {str}'.format(str=connectionstring))
 connection = db.connect(connectionstring)
 cursor = connection.cursor()
