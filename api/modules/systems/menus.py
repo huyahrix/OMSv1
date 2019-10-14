@@ -14,7 +14,7 @@ import json
 from .data.user import getUserMenu
 
 
-class Menu(Resource):
+class UserMenu(Resource):
     @jwt_required
     def get(self):
         if request.method == 'GET':
