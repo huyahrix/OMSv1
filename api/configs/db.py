@@ -13,11 +13,11 @@ port = 1433
 # driver = {[x for x in db.drivers() if x.endswith('17 for SQL Server')][0]}
 # driver = db.drivers()
 print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
-print(type(db))
-for item in db.drivers()
+for item in db.drivers():
     print(item)
-driver = [item for item in db.drivers()][-1]
 
+
+driver = [item for item in db.drivers()][-1]
 print(driver)
 connectionstring = f'DRIVER={driver};SERVER={server};UID={username};PWD={password};DATABASE={database}'
 print(connectionstring)
