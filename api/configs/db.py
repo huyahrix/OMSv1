@@ -17,7 +17,8 @@ for item in db.drivers():
     print(item)
 
 
-driver = [item for item in db.drivers()][-1]
+# driver = [item for item in db.drivers()][-1]
+driver = "ODBC Driver 17 for SQL Server"
 print(driver)
 connectionstring = f'DRIVER={driver};SERVER={server};UID={username};PWD={password};DATABASE={database}'
 print(connectionstring)
