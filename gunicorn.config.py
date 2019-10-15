@@ -24,7 +24,7 @@ debug = True
 #       range.
 #
 
-bind = '127.0.0.1:5000'
+bind = '0.0.0.0:5000'
 backlog = 2048
 
 #
@@ -72,7 +72,7 @@ backlog = 2048
 #
 
 # workers = 1
-workers = 3
+workers = 1
 
 worker_class = 'sync'
 worker_connections = 1000
@@ -154,8 +154,8 @@ tmp_upload_dir = None
 #
 
 errorlog = '-'
-# loglevel = 'info'
-loglevel = 'debug'
+loglevel = 'info'
+# loglevel = 'debug'
 accesslog = '-'
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
 
