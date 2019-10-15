@@ -30,7 +30,7 @@ _user_parser.add_argument(
 _user_parser.add_argument(
     "password", type=str, required=True, help=BLANK_ERROR.format("password")
 )
-# a
+
 class UserLogin(Resource):
     def post(self):
         if request.method == 'POST':
