@@ -10,10 +10,10 @@ username = config_by_name[ENV].DB_USERNAME
 password = config_by_name[ENV].DB_PASSWORD
 connectionstring = config_by_name[ENV].DB_CONNECTIONSTRING
 port = 1433
+
 # list pyodbc driver
 # for item in db.drivers():
 #     print(item)
-
 
 if bool("win" in sys.platform):
     driver = "ODBC Driver 17 for SQL Server"
