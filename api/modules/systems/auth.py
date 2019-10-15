@@ -31,7 +31,9 @@ _user_parser.add_argument(
     "password", type=str, required=True, help=BLANK_ERROR.format("password")
 )
 
-class UserLogin(Resource):
+
+# Login endpoint
+class Login(Resource):
     def post(self):
         if request.method == 'POST':
             data = request.get_json()
@@ -75,7 +77,8 @@ class UserLogin(Resource):
                  return {'status': status.HTTP_400_BAD_REQUEST, 'messsage': ''}, 400
 
 
-class UserLogout(Resource):
+# Endpoint for revoking the current users access token
+class Logout(Resource):
     @jwt_required
     def post(self):
         jti = get_raw_jwt()["jti"]  # jti is "JWT ID", a unique identifier for a JWT.
@@ -88,7 +91,9 @@ class UserLogout(Resource):
         return response
 
 
-class TokenRefresh(Resource):
+# Standard refresh endpoint. A blacklisted refresh token
+# will not be able to access this endpoint
+class Refresh(Resource):
     @jwt_refresh_token_required
     def post(self):
         current_user = get_jwt_identity()

@@ -18,8 +18,8 @@ from flask_api import status
 import json
 
 
-class DefaultRoute(Resource):
+class Default(Resource):
     # @jwt_required
     def get(self):
-        x = 1/0
+        x = 1/0 # check logg error
         return jsonify(status=200,message='default router')

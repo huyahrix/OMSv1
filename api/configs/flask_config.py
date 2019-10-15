@@ -10,7 +10,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     DEBUG = False
     TESTING = False
-    SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
+    # SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
+    JWT_SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
     # SECRET_KEY = os.environ.get("SECRET_KEY")
     # if not SECRET_KEY:
     #     raise ValueError("No SECRET_KEY set for Flask application")
@@ -22,6 +23,7 @@ class Config:
     SESSION_COOKIE_SECURE = True
     PROPAGATE_EXCEPTIONS = True # error handle
     JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS  = ['access', 'refresh']
     JSON_SORT_KEYS = False
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=360*60)
 
