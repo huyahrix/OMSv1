@@ -11,6 +11,13 @@ app = create_app()
 CORS(app)
 api = Api(app)
 jwt = JWTManager(app)
+
+# This method will check if a token is blacklisted, and will be called automatically when blacklist is enabled
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    return decrypted_token["jti"] in BLACKLIST
+
+
 register_routes(api)
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ class Config:
     IMAGE_UPLOADS = "/static/images/uploads"
     SESSION_COOKIE_SECURE = True
     PROPAGATE_EXCEPTIONS = True # error handle
-    JWT_BLACKLIST_ENABLED = False
+    JWT_BLACKLIST_ENABLED = True
     JSON_SORT_KEYS = False
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=360*60)
 

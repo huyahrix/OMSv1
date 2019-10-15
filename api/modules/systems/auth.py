@@ -18,7 +18,7 @@ from flask_jwt_extended import (
 import json
 from api.util.decrypt import decryptData
 from api.util.blacklist import BLACKLIST
-from .data.user_data import getUserInfo,verifyPassword,listUser
+from .systems_data.user_data import getUserInfo,verifyPassword,listUser
 # from api.util.encrypt import encrypt
 
 BLANK_ERROR = "'{}' cannot be blank."
@@ -80,8 +80,12 @@ class UserLogout(Resource):
     def post(self):
         jti = get_raw_jwt()["jti"]  # jti is "JWT ID", a unique identifier for a JWT.
         user_id = get_jwt_identity()
+        if not user_id:
+            return {'status':'404','':''}, status.HTTP_404_NOT_FOUND
         BLACKLIST.add(jti)
-        return {"message": "User <id={}> successfully logged out.".format(user_id)}, 200
+        response = jsonify(status=status.HTTP_200_OK, message="User <id={}> successfully logged out.".format(user_id))
+        response.status_code = status.HTTP_200_OK
+        return response
 
 
 class TokenRefresh(Resource):
