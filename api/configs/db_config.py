@@ -1,6 +1,6 @@
 import logging,sys,os
 import pyodbc as db
-from api.configs.config  import config_by_name
+from api.configs.flask_config  import config_by_name
 
 ENV = os.environ.get("FLASK_ENV", "development")
 

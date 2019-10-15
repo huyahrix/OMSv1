@@ -16,15 +16,10 @@ from flask_jwt_extended import (
 from flask import request,jsonify,Response
 from flask_api import status
 import json
-from run import app
 
 
 class DefaultRoute(Resource):
     # @jwt_required
     def get(self):
-        app.logger.debug('this is a DEBUG message')
-        app.logger.info('this is an INFO message')
-        app.logger.warning('this is a WARNING message')
-        app.logger.error('this is an ERROR message')
-        app.logger.critical('this is a CRITICAL message')
+        x = 1/0
         return jsonify(status=200,message='default router')
