@@ -19,7 +19,7 @@ import json
 from api.util.decrypt import decryptData
 from api.util.blacklist import BLACKLIST
 from .systems_data.user_data import getUserInfo,verifyPassword,listUser
-from api.util.encrypt import encrypt
+#from api.util.encrypt import encrypt
 
 BLANK_ERROR = "'{}' cannot be blank."
 CREATED_SUCCESSFULLY = "User created successfully."
