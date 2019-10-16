@@ -4,18 +4,22 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager,exceptions
 from api import create_app
 from api.configs.routes import register_routes
-from api.util.blacklist import BLACKLIST
 import logging
+from api.util.blacklist_helpers import is_token_revoked
 
 app = create_app()
 CORS(app)
 api = Api(app)
 jwt = JWTManager(app)
 
-# This method will check if a token is blacklisted, and will be called automatically when blacklist is enabled
+# app.config.setdefault('JWT_IDENTITY_CLAIM', 'identity')
+print(app.config['JWT_IDENTITY_CLAIM'])
+# This method will check if a token is blacklisted, 
+# and will be called automatically when blacklist is enabled
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
-    return decrypted_token["jti"] in BLACKLIST
+    # return decrypted_token["jti"] in BLACKLIST
+    return is_token_revoked(decrypted_token)
 
 
 register_routes(api)

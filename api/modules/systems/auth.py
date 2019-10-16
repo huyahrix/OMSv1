@@ -15,9 +15,12 @@ from flask_jwt_extended import (
     jwt_required,
     get_raw_jwt,
 )
+from api.util.blacklist_helpers import (
+    add_token_to_database, 
+)
+
 import json
 from api.util.decrypt import decryptData
-from api.util.blacklist import BLACKLIST
 from .systems_data.user_data import getUserInfo,verifyPassword,listUser
 from api.util.encrypt import encrypt
 
@@ -49,8 +52,12 @@ class Login(Resource):
                     userData = getUserInfo(attemptUserName)
                     if userData:
                         if verifyPassword(attemptPassword, userData.user_login_password):
+                             # Create our JWTs
                             access_token = create_access_token(identity=userData.user_id, fresh=True)
                             refresh_token = create_refresh_token(userData.user_id)
+                             # Store the tokens in our store with a status of not currently revoked.
+                            add_token_to_database(access_token, 'identity')
+                            add_token_to_database(refresh_token, 'identity')
                             userInfo = {}
                             userInfo['userID'] = userData.user_id
                             userInfo['userName'] = userData.user_login_name
@@ -85,7 +92,7 @@ class Logout(Resource):
         user_id = get_jwt_identity()
         if not user_id:
             return {'status':'404','':''}, status.HTTP_404_NOT_FOUND
-        BLACKLIST.add(jti)
+        # BLACKLIST.add(jti)
         response = jsonify(status=status.HTTP_200_OK, message="User <id={}> successfully logged out.".format(user_id))
         response.status_code = status.HTTP_200_OK
         return response
@@ -99,3 +106,31 @@ class Refresh(Resource):
         current_user = get_jwt_identity()
         new_token = create_access_token(identity=current_user, fresh=False)
         return {"access_token": new_token}, 200
+
+
+# @app.route('/auth/token/<token_id>', methods=['PUT'])
+# @jwt_required
+# def modify_token(token_id):
+#     # Get and verify the desired revoked status from the body
+#     json_data = request.get_json(silent=True)
+#     if not json_data:
+#         return jsonify({"msg": "Missing 'revoke' in body"}), 400
+#     revoke = json_data.get('revoke', None)
+#     if revoke is None:
+#         return jsonify({"msg": "Missing 'revoke' in body"}), 400
+#     if not isinstance(revoke, bool):
+#         return jsonify({"msg": "'revoke' must be a boolean"}), 400
+
+#     # Revoke or unrevoke the token based on what was passed to this function
+#     user_identity = get_jwt_identity()
+#     try:
+#         if revoke:
+#             revoke_token(token_id, user_identity)
+#             return jsonify({'msg': 'Token revoked'}), 200
+#         else:
+#             unrevoke_token(token_id, user_identity)
+#             return jsonify({'msg': 'Token unrevoked'}), 200
+#     except TokenNotFound:
+#         return jsonify({'msg': 'The specified token was not found'}), 404
+
+

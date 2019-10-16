@@ -21,5 +21,5 @@ else:
     driver = "ODBC Driver 13 for SQL Server" # centos 7
 connectionstring = f'DRIVER={driver};SERVER={server};UID={username};PWD={password};DATABASE={database}'
 print(' * {str}'.format(str=connectionstring))
-connection = db.connect(connectionstring)
-cursor = connection.cursor()
+cnxn  = db.connect(connectionstring)
+cursor = cnxn.cursor()
