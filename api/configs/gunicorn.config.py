@@ -1,6 +1,7 @@
 import os
 
-debug = True
+debug = False
+reload = True
 # pidfile = '/tmp/gunicorn.pid'
 # logfile = '/var/log/gunicorn/debug.log'
 

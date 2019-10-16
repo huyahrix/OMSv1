@@ -8,7 +8,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    DEBUG = False
+    DEBUG = True
     TESTING = False
     # SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
     JWT_SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
@@ -26,7 +26,9 @@ class Config:
     JWT_BLACKLIST_TOKEN_CHECKS  = ['access', 'refresh']
     JSON_SORT_KEYS = False
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=360*60)
-
+    # Do not enable debug mode when deploying in production.
+    FLASK_DEBUG=1
+    TEMPLATES_AUTO_RELOAD = True
 
 class DevelopmentConfig(Config):
     DB_CONNECTIONSTRING = "Driver={SQL Server};Server=10.0.0.60;UID=sa;PWD=@abc123@;Database=BIZMAN;"
@@ -43,6 +45,8 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
+    DEBUG = True
+    FLASK_DEBUG=0
     DB_CONNECTIONSTRING = "Driver={SQL Server};Server=10.0.0.60;UID=sa;PWD=@abc123@;Database=BIZMAN;"
     DB_SERVER = "10.0.0.60"
     DB_NAME = "BIZMAN"
