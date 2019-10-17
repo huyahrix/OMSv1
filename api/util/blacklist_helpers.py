@@ -24,17 +24,22 @@ def add_token_to_database(encoded_token, identity_claim):
     user_identity = decoded_token[identity_claim]
     expires = _epoch_utc_to_datetime(decoded_token['exp'])
     revoked = 0
-    str_query = """INSERT INTO token_blacklist (jti, token_type, user_identity, expires, revoked)
-    VALUES ('{jti}', '{token_type}', '{user_identity}', '{expires}', '{revoked}');""".format(jti=jti,
+    currenttime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    str_query = """INSERT INTO token_blacklist (token_id, token_type, user_identity, revoked, createAt, updateAt, expiresAt)
+    VALUES ('{jti}', '{token_type}', '{user_identity}', '{revoked}','{createAt}','{updateAt}','{expiresAt}');""".format(jti=jti,
                                                                                              token_type=token_type,
                                                                                              user_identity=user_identity,
-                                                                                             expires=expires,
-                                                                                             revoked=revoked)
+                                                                                             revoked=revoked,
+                                                                                             createAt = currenttime,
+                                                                                             updateAt = currenttime,
+                                                                                             expiresAt= expires)
     try:
         cursor.execute(str_query)
         cnxn.commit()
+        return True
     except pyodbc.Error as ex:
         logging.error(ex.args[1])
+        return False
 
 
 def is_token_revoked(decoded_token):
@@ -48,61 +53,73 @@ def is_token_revoked(decoded_token):
     try:
         str_query="""SELECT revoked 
         FROM token_blacklist 
-        WHERE jti ='{}'""".format(jti)
+        WHERE token_id ='{}'""".format(jti)
         cursor.execute(str_query)
         result = cursor.fetchone()
         if result.revoked == 1:
             return True
         return False
+    except:
+        if not pyodbc.Error:
+            logging.error(pyodbc.Error.args[1])
+        return False
+
+
+def get_user_tokens(user_identity):
+    """
+    Returns all of the tokens, revoked and unrevoked, that are stored for the
+    given user
+    """
+    try:
+        sql_query="SELECT * FROM token_blacklist"
+        cursor.execute(sql_query)
+        return cursor.fetchall()
     except pyodbc.Error as ex:
         logging.error(ex.args[1])
+        return None
+
+
+def revoke_token(token_id, user):
+    """
+    Revokes the given token. Raises a TokenNotFound error if the token does
+    not exist in the database
+    """
+    try:
+        sql_query = """UPDATE token_blacklist
+        SET revoked = 1
+        WHERE token_id = '{token_id}' AND user_identity = '{user}' ;""".format(token_id=token_id,user=user)
+        cursor.execute(sql_query)
+        cnxn.commit()
         return True
+    except pyodbc.Error as ex:
+        logging.error(ex.args[1])
+        return False
 
 
-# def get_user_tokens(user_identity):
-#     """
-#     Returns all of the tokens, revoked and unrevoked, that are stored for the
-#     given user
-#     """
-#     return TokenBlacklist.query.filter_by(user_identity=user_identity).all()
+def unrevoke_token(token_id, user):
+    """
+    Unrevokes the given token. Raises a TokenNotFound error if the token does
+    not exist in the database
+    """
+    try:
+        sql_query = """UPDATE token_blacklist
+        SET revoked = 0
+        WHERE token_id = '{token_id}' AND user_identity = '{user}';""".format(token_id=token_id,user=user)
+        cursor.execute
+        cnxn.commit()
+    except pyodbc.Error as ex:
+        logging.error(ex.args[1])
 
 
-# def revoke_token(token_id, user):
-#     """
-#     Revokes the given token. Raises a TokenNotFound error if the token does
-#     not exist in the database
-#     """
-#     try:
-#         token = TokenBlacklist.query.filter_by(id=token_id, user_identity=user).one()
-#         token.revoked = True
-#         db.session.commit()
-#     except NoResultFound:
-#         raise TokenNotFound("Could not find the token {}".format(token_id))
+def prune_database():
+    """
+    Delete tokens that have expired from the database.
 
-
-# def unrevoke_token(token_id, user):
-#     """
-#     Unrevokes the given token. Raises a TokenNotFound error if the token does
-#     not exist in the database
-#     """
-#     try:
-#         token = TokenBlacklist.query.filter_by(id=token_id, user_identity=user).one()
-#         token.revoked = False
-#         db.session.commit()
-#     except NoResultFound:
-#         raise TokenNotFound("Could not find the token {}".format(token_id))
-
-
-# def prune_database():
-#     """
-#     Delete tokens that have expired from the database.
-
-#     How (and if) you call this is entirely up you. You could expose it to an
-#     endpoint that only administrators could call, you could run it as a cron,
-#     set it up with flask cli, etc.
-#     """
-#     now = datetime.now()
-#     expired = TokenBlacklist.query.filter(TokenBlacklist.expires < now).all()
-#     for token in expired:
-#         db.session.delete(token)
-#     db.session.commit()
+    How (and if) you call this is entirely up you. You could expose it to an
+    endpoint that only administrators could call, you could run it as a cron,
+    set it up with flask cli, etc.
+    """
+    now = datetime.now()
+    sql_query="DELETE FROM products WHERE expiresAt < '{}'".format(now)
+    cursor.execute(sql_query)
+    cnxn.commit()

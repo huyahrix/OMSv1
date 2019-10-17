@@ -13,10 +13,10 @@ from flask_jwt_extended import (
     jwt_required,
     get_raw_jwt,
 )
-from flask import request,jsonify,Response
+from flask import request,jsonify,Response, make_response
 from flask_api import status
 import json
-from .systems_data.user_data import getUserMenu
+from .systems_data.system import getUserMenu
 
 
 class Menu(Resource):
@@ -24,10 +24,10 @@ class Menu(Resource):
     def get(self):
         if request.method == 'GET':
             user_id = get_jwt_identity()
-            if not user_id :
-                return {'status':'404','message':'user not found.'}, status.HTTP_404_NOT_FOUND
+            # if not user_id :
+            #     return make_response(jsonify(status=404,msg='user not found.'),404)
             data = getUserMenu(user_id)
         if not data:
-           return {'status':'500','message':'Internal Server Error'}, status.HTTP_500_INTERNAL_SERVER_ERROR
+           return make_response(jsonify(status=503,msg='Service Unavailable'),503)
            
-        return jsonify(status=status.HTTP_200_OK,message='',data=data)
+        return make_response(jsonify(status=200,msg='',data=data),200)

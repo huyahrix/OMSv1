@@ -10,7 +10,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     DEBUG = True
     TESTING = False
-    # SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
+    SECRET_KEY     = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
     JWT_SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
     # SECRET_KEY = os.environ.get("SECRET_KEY")
     # if not SECRET_KEY:
@@ -22,13 +22,16 @@ class Config:
     IMAGE_UPLOADS = "/static/images/uploads"
     SESSION_COOKIE_SECURE = True
     PROPAGATE_EXCEPTIONS = True # error handle
-    JWT_BLACKLIST_ENABLED = True
-    JWT_BLACKLIST_TOKEN_CHECKS  = ['access', 'refresh']
-    JSON_SORT_KEYS = False
-    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=360*60)
     # Do not enable debug mode when deploying in production.
     FLASK_DEBUG=1
     TEMPLATES_AUTO_RELOAD = True
+    JSON_SORT_KEYS = False
+
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS  = ['access', 'refresh']
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=360*60)
+    JWT_IDENTITY_CLAIM = 'identity'
+  
 
 class DevelopmentConfig(Config):
     DB_CONNECTIONSTRING = "Driver={SQL Server};Server=10.0.0.60;UID=sa;PWD=@abc123@;Database=BIZMAN;"
