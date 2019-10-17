@@ -11,7 +11,6 @@ class Config:
     DEBUG = True
     TESTING = False
     SECRET_KEY     = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
-    JWT_SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
     # SECRET_KEY = os.environ.get("SECRET_KEY")
     # if not SECRET_KEY:
     #     raise ValueError("No SECRET_KEY set for Flask application")
@@ -27,6 +26,7 @@ class Config:
     TEMPLATES_AUTO_RELOAD = True
     JSON_SORT_KEYS = False
 
+    JWT_SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS  = ['access', 'refresh']
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=360*60)
