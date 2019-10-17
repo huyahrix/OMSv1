@@ -2,7 +2,7 @@ import logging
 import pyodbc 
 import bcrypt
 import json
-from api.configs.db_config import cursor
+from api.configs.db_config import cursor, cnxn
 
 
 def getUserInfo(userName):
