@@ -14,11 +14,11 @@ def getUserInfo(userName):
     try:
         cursor.execute(strSQL)
         resuft = cursor.fetchone()
+        return resuft
     except pyodbc.Error as ex:
         logging.error(ex.args[1])
         return None
     
-    return resuft
 
 
 def getUserMenu(userId):
@@ -38,11 +38,11 @@ def getUserMenu(userId):
         cursor.execute(strSQL)
         result = cursor.fetchall()
         data = [dict(zip([key[0] for key in cursor.description], row)) for row in result]
+        return data
     except pyodbc.Error as ex:
         logging.error(ex.args[1])
         return None
     
-    return data
 
 
 def verifyPassword(password, dbHash):
@@ -50,11 +50,4 @@ def verifyPassword(password, dbHash):
 	    return True
 	else:
 	    return False
-
-
-def listUser():
-    strSQL = "SELECT * from users"
-    cursor.execute(strSQL)
-    row = cursor.fetchall()
-    return row
 
