@@ -24,8 +24,14 @@ from api.util.blacklist_helpers import (
 from datetime import datetime 
 import json
 from api.util.decrypt import decryptData
+<<<<<<< HEAD
 from .systems_data.system import getUserInfo, verifyPassword
 from api.util.encrypt import encrypt
+=======
+from api.util.blacklist import BLACKLIST
+from .systems_data.user_data import getUserInfo,verifyPassword,listUser
+#from api.util.encrypt import encrypt
+>>>>>>> 553f21c6cfdfaeb87c9358fc0cd551d36c3d2f4e
 
 BLANK_ERROR = "'{}' cannot be blank."
 CREATED_SUCCESSFULLY = "User created successfully."
@@ -125,6 +131,7 @@ class Refresh(Resource):
     def post(self):
         current_user = get_jwt_identity()
         new_token = create_access_token(identity=current_user, fresh=False)
+<<<<<<< HEAD
         try:
             if not add_token_to_database(new_token, 'identity'):
                 return make_response(jsonify(status = 503,msg=SERVICE_UNAVAILABLE,data=''),503)
@@ -165,3 +172,6 @@ class ModifyToken(Resource):
             return make_response(jsonify(status=404, msg='The specified token was not found'), 404)
 
 
+=======
+        return {"access_token": new_token}, 200
+>>>>>>> 553f21c6cfdfaeb87c9358fc0cd551d36c3d2f4e
