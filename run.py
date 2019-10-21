@@ -5,9 +5,6 @@ from flask_jwt_extended import JWTManager,exceptions
 from api import create_app
 from api.configs.routes import register_routes
 from api.util.blacklist_helpers import is_token_revoked
-import logging
-from logging.handlers import RotatingFileHandler
-from logging import Formatter
 
 app = create_app()
 CORS(app)
