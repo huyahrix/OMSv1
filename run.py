@@ -37,14 +37,14 @@ if __name__ != '__main__':
 
 
     # logging.basicConfig(filename='error.log',level=logging.DEBUG)
-    file_handler = logging.handlers.RotatingFileHandler('python.log', maxBytes=1024 * 1024 * 100, backupCount=20)
-    file_handler.setLevel(logging.ERROR)
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    file_handler.setFormatter(formatter)
-    app.logger.addHandler(file_handler)
+    # file_handler = logging.handlers.RotatingFileHandler('python.log', maxBytes=1024 * 1024 * 100, backupCount=20)
+    # file_handler.setLevel(logging.ERROR)
+    # formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    # file_handler.setFormatter(formatter)
+    # app.logger.addHandler(file_handler)
 
 
     gunicorn_logger = logging.getLogger('gunicorn.error')
-    
+    gunicorn_logger.FileHandler('gunicorn.error')
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
