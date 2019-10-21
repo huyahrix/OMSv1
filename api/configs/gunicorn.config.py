@@ -2,6 +2,8 @@ import os
 
 debug = False
 reload = True
+
+
 # pidfile = '/tmp/gunicorn.pid'
 # logfile = '/var/log/gunicorn/debug.log'
 
@@ -159,7 +161,7 @@ loglevel = 'info'
 # loglevel = 'debug'
 accesslog = '-'
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
-
+logfile = 'gunicorn.log'
 #
 # Process naming
 #
