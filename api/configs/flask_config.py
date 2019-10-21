@@ -34,6 +34,8 @@ class Config:
   
 
 class DevelopmentConfig(Config):
+    DEBUG = False
+    FLASK_DEBUG=0
     DB_CONNECTIONSTRING = "Driver={SQL Server};Server=10.0.0.60;UID=sa;PWD=@abc123@;Database=BIZMAN;"
     DB_SERVER = "10.0.0.60"
     DB_NAME = "BIZMAN"
@@ -48,7 +50,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    DEBUG = True
+    DEBUG = False
     FLASK_DEBUG=0
     DB_CONNECTIONSTRING = "Driver={SQL Server};Server=10.0.0.60;UID=sa;PWD=@abc123@;Database=BIZMAN;"
     DB_SERVER = "10.0.0.60"
