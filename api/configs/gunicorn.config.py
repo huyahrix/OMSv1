@@ -1,6 +1,6 @@
 import os
 
-debug = False
+debug = True # log default 
 reload = True
 
 # Sample Gunicorn configuration file.
