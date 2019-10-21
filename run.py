@@ -26,7 +26,8 @@ if __name__ == '__main__':
 
 
 if __name__ != '__main__':
-    print('runzzzzzzzzzzz')
+    print('logging testing')
+    logging.basicConfig(filename='error.log',level=logging.DEBUG)
     # gunicorn_logger = logging.getLogger('gunicorn.error')
     # app.logger.handlers = gunicorn_logger.handlers
     # app.logger.setLevel(gunicorn_logger.level)
