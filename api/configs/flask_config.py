@@ -1,4 +1,5 @@
 import os
+import sys
 import datetime
 
 # uncomment the line below for postgres database url from environment variable
@@ -32,7 +33,13 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=360*60)
     JWT_IDENTITY_CLAIM = 'identity'
 
-  
+    # serve static file
+    if bool("win" in sys.platform):
+        STATIC_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\static'
+        TEMPLATES_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\templates'
+    else:
+        STATIC_FOLDER = '/home/diginet/myproject/OMSv1/api/static'
+        TEMPLATES_FOLDER = '/home/diginet/myproject/OMSv1/api/templates'
 
 class DevelopmentConfig(Config):
     DEBUG = True
