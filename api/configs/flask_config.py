@@ -11,6 +11,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     DEBUG = True
     TESTING = False
+    PROPAGATE_EXCEPTIONS = True # error handle
+    FLASK_DEBUG=1 # Do not enable debug mode when deploying in production.
     SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
     # SECRET_KEY = os.environ.get("SECRET_KEY")
     # if not SECRET_KEY:
@@ -19,11 +21,7 @@ class Config:
     DB_NAME = "production-db"
     DB_USERNAME = "admin"
     DB_PASSWORD = "example"
-    IMAGE_UPLOADS = "/static/images/uploads"
     SESSION_COOKIE_SECURE = True
-    PROPAGATE_EXCEPTIONS = True # error handle
-    # Do not enable debug mode when deploying in production.
-    FLASK_DEBUG=1
     TEMPLATES_AUTO_RELOAD = True
     JSON_SORT_KEYS = False
 
@@ -34,6 +32,7 @@ class Config:
     JWT_IDENTITY_CLAIM = 'identity'
 
     # serve static file
+    IMAGE_UPLOADS = "/static/images/uploads"
     if bool("win" in sys.platform):
         STATIC_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\static'
         TEMPLATES_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\templates'
@@ -74,5 +73,3 @@ config_by_name = dict(
     test=TestingConfig,
     production=ProductionConfig
 )
-
-# key = Config.SECRET_KEY
