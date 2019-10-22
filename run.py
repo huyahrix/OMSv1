@@ -7,8 +7,7 @@ from api.configs.routes import register_routes
 from api.util.blacklist_helpers import is_token_revoked
 from api.configs.flask_config import config_by_name
 import logging
-from concurrent_log_handler import ConcurrentRotatingFileHandler
-from logging.handlers import RotatingFileHandler
+# from logging.handlers import RotatingFileHandler
 
 
 app = create_app()
@@ -29,8 +28,15 @@ register_routes(api)
 logger = logging.getLogger('werkzeug')
 handler = logging.FileHandler('access.log')
 logger.addHandler(handler)
+app.logger.addHandler(handler)
 app.logger.error('first test message...')
 logger.error('first test message...')
+
+gunicorn_logger = logging.getLogger('gunicorn.error')
+gunicorn_logger.addHandler(handler)
+app.logger.handlers = gunicorn_logger.handlers
+app.logger.setLevel(gunicorn_logger.level)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
