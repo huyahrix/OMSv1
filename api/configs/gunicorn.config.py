@@ -70,7 +70,6 @@ backlog = 2048
 #       A positive integer. Generally set in the 1-5 seconds range.
 #
 
-# workers = 1
 workers = 1
 
 worker_class = 'sync'
@@ -152,10 +151,14 @@ tmp_upload_dir = None
 #       A string of "debug", "info", "warning", "error", "critical"
 #
 
-errorlog = '-'
 loglevel = 'info'
-# loglevel = 'debug'
-accesslog = 'error.log'
+#loglevel = 'debug'
+
+#errorlog = 'error.log'
+errorlog = '-'
+#accesslog = 'error.log'
+accesslog = '-'
+
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
 
 #

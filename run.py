@@ -25,18 +25,13 @@ def check_if_token_in_blacklist(decrypted_token):
 register_routes(api)
 
 
-logger = logging.getLogger('werkzeug')
 handler = logging.FileHandler('access.log')
-logger.addHandler(handler)
-app.logger.addHandler(handler)
-app.logger.error('first test message...')
-logger.error('first test message...')
-
 gunicorn_logger = logging.getLogger('gunicorn.error')
 gunicorn_logger.addHandler(handler)
 app.logger.handlers = gunicorn_logger.handlers
+app.logger.info(gunicorn_logger.level)
 app.logger.setLevel(gunicorn_logger.level)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

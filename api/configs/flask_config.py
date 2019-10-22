@@ -32,7 +32,6 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=360*60)
     JWT_IDENTITY_CLAIM = 'identity'
 
-    LOG_FILE = os.path.abspath(__file__ + "/../../application.log")
   
 
 class DevelopmentConfig(Config):
