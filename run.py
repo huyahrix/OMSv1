@@ -28,6 +28,7 @@ register_routes(api)
 logger = logging.getLogger('werkzeug')
 handler = logging.FileHandler('access.log')
 logger.addHandler(handler)
+app.logger.addHandler(handler)
 app.logger.error('first test message...')
 logger.error('first test message...')
 
