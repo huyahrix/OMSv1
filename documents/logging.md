@@ -31,3 +31,13 @@ app.logger.addHandler(handler)
     warning
     error
     critical
+
+# Example:
+```python 
+    handler = logging.FileHandler('access.log')
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    gunicorn_logger.addHandler(handler)
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.info(gunicorn_logger.level)
+    app.logger.setLevel(gunicorn_logger.level)
+```
