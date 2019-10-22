@@ -7,8 +7,7 @@ from api.configs.routes import register_routes
 from api.util.blacklist_helpers import is_token_revoked
 from api.configs.flask_config import config_by_name
 import logging
-from concurrent_log_handler import ConcurrentRotatingFileHandler
-from logging.handlers import RotatingFileHandler
+# from logging.handlers import RotatingFileHandler
 
 
 app = create_app()
