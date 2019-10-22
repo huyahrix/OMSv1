@@ -10,7 +10,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     DEBUG = True
     TESTING = False
-    SECRET_KEY     = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
+    SECRET_KEY = "B\xb2?.\xdf\x9f\xa7m\xf8\x8a%,\xf7\xc4\xfa\x91"
     # SECRET_KEY = os.environ.get("SECRET_KEY")
     # if not SECRET_KEY:
     #     raise ValueError("No SECRET_KEY set for Flask application")
