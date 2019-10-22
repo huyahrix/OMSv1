@@ -20,3 +20,14 @@ where Werkzeug isn't used as the underlying WSGI server.
 app.logger.addHandler(handler)
 - You can of course add your own formatting and other handlers.
 - https://docstrings.wordpress.com/2014/04/19/flask-access-log-write-requests-to-file/
+
+# Loglevel
+    The granularity of Error log outputs.
+
+    Valid level names are:
+
+    debug
+    info
+    warning
+    error
+    critical
