@@ -22,3 +22,8 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+# Log - Documents
+documents/
+*.log
+*.md

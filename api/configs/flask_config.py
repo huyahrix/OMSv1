@@ -31,11 +31,13 @@ class Config:
     JWT_BLACKLIST_TOKEN_CHECKS  = ['access', 'refresh']
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=360*60)
     JWT_IDENTITY_CLAIM = 'identity'
+
+    LOG_FILE = os.path.abspath(__file__ + "/../../application.log")
   
 
 class DevelopmentConfig(Config):
-    DEBUG = False
-    FLASK_DEBUG=0
+    DEBUG = True
+    FLASK_DEBUG=1
     DB_CONNECTIONSTRING = "Driver={SQL Server};Server=10.0.0.60;UID=sa;PWD=@abc123@;Database=BIZMAN;"
     DB_SERVER = "10.0.0.60"
     DB_NAME = "BIZMAN"
