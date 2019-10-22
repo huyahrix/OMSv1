@@ -34,6 +34,8 @@ app.logger.addHandler(handler)
 
 # Example:
 ```python 
+    from logging.handlers import RotatingFileHandler
+
     handler = logging.FileHandler('access.log')
     gunicorn_logger = logging.getLogger('gunicorn.error')
     gunicorn_logger.addHandler(handler)

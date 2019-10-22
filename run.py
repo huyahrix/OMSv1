@@ -1,14 +1,11 @@
 import os
 from flask_cors import CORS
 from flask_restful import Api
-from flask_jwt_extended import JWTManager,exceptions
+from flask_jwt_extended import JWTManager
 from api import create_app
 from api.configs.routes import register_routes
 from api.util.blacklist_helpers import is_token_revoked
-from api.configs.flask_config import config_by_name
 import logging
-# from logging.handlers import RotatingFileHandler
-
 
 app = create_app()
 CORS(app)
