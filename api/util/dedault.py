@@ -14,11 +14,8 @@ from flask_jwt_extended import (
     jwt_required,
     get_raw_jwt,
 )
-from flask import request,jsonify,Response,render_template, send_from_directory
+from flask import request,jsonify,Response,render_template, send_from_directory, make_response
 from flask_api import status
 import json
 from flask import current_app
 
-class Default(Resource):
-    def get(self):
-        return send_from_directory(current_app.config['TEMPLATES_FOLDER'], 'index.html')
