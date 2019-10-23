@@ -22,16 +22,15 @@ class Serve_static(Resource):
     #@jwt_required
     def get(self,filename):
         current_app.logger.debug('serve : %f',filename) 
-        path = current_app.config['STATIC_FOLDER']
+        path = current_app.config.get('STATIC_FOLDER')
         if 'js/' in filename:
             if current_app.config.get('OS_WIN'):
-                path = current_app.config['STATIC_FOLDER'] + '\\js'
+                path = current_app.config['STATIC_FOLDER'] + '\\js1'
             else:
                 path = current_app.config['STATIC_FOLDER'] + '/js'
             filename = filename.replace('js/','')
-        print(filename)
-        if not os.path.exists(path + '\\' + filename):
-            return make_response(jsonify(status=status.HTTP_200_OK, msg="Cannot find <id={filename}> in {path}".format(filename=filename, path=path)),404)
+        if not os.path.exists(path + ('\\','/')[current_app.config.get('OS_WIN')] + filename):
+            return make_response(jsonify(status=404, msg="Cannot find <id={filename}> in {path}".format(filename=filename, path=path)),404)
         return send_from_directory(path,filename)
 
         # STATIC_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\static'
