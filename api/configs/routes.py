@@ -7,7 +7,7 @@ def register_routes(api):
     # Serving static files
     api.add_resource(Default,              "/")
     routes = [
-        '/<string:filename>', # webpack file
+        '/<string:filename>',               # webpack file
         '/public/images/<string:filename>', # webpack file
         '/static/<path:filename>',
         ]
