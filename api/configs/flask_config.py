@@ -6,7 +6,7 @@ import datetime
 # postgres_local_base = os.environ['DATABASE_URL']
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-
+print(basedir)
 
 class Config:
     DEBUG = True
@@ -38,12 +38,16 @@ class Config:
     IMAGE_UPLOADS = "/static/images/uploads"
     if bool("win" in sys.platform):
         OS_WIN = True
-        STATIC_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\static'
-        TEMPLATES_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\templates'
+        # STATIC_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\static'
+        # TEMPLATES_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\templates'
+        STATIC_FOLDER = basedir.replace('configs','static')
+        TEMPLATES_FOLDER = basedir.replace('configs','templates')
     else:
         OS_WIN = False
-        STATIC_FOLDER = '/home/diginet/myproject/OMSv1/api/static'
-        TEMPLATES_FOLDER = '/home/diginet/myproject/OMSv1/api/templates'
+        # STATIC_FOLDER = '/home/diginet/myproject/OMSv1/api/static'
+        # TEMPLATES_FOLDER = '/home/diginet/myproject/OMSv1/api/templates'
+        STATIC_FOLDER = basedir.replace('configs','static')
+        TEMPLATES_FOLDER = basedir.replace('configs','templates')
 
 class DevelopmentConfig(Config):
     DEBUG = True
