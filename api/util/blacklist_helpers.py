@@ -74,7 +74,6 @@ def get_user_tokens(token_id):
     try:
         cursor.execute(sql_query)
         result = cursor.fetchone()
-        #data = [dict(zip([key[0] for key in cursor.description], row)) for row in result]
         return result
     except pyodbc.Error as ex:
         logging.error(ex.args[1])
