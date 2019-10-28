@@ -10,8 +10,12 @@ def register_routes(api):
     #     '/public/images/<string:filename>', # webpack file
     #     '/static/<path:filename>',
     #     ]
-
-    api.add_resource(Default,              '/')
+    
+    default = [
+        '/',
+        '/login'
+    ]
+    api.add_resource(Default,              *default)
     api.add_resource(Serve_static,         '/static/js/<path:filename>')
     # auth
     api.add_resource(Login,                '/api/v1/system/login')
