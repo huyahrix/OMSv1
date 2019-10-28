@@ -6,7 +6,6 @@ import datetime
 # postgres_local_base = os.environ['DATABASE_URL']
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-print(basedir)
 
 class Config:
     DEBUG = True

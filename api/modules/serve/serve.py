@@ -13,7 +13,7 @@ from flask_jwt_extended import (
     jwt_required,
     get_raw_jwt,
 )
-from flask import current_app, request, jsonify, Response, send_from_directory, make_response, render_template
+from flask import current_app, request, jsonify, Response, send_from_directory, make_response, render_template, redirect
 from flask_api import status
 import os
 
@@ -34,12 +34,13 @@ class Serve_static(Resource):
                 path = current_app.config['STATIC_FOLDER'] + '/images'
             filename = filename.replace('images/','')
 
-        if not os.path.exists(path + ('\\','/')[current_app.config.get('OS_WIN')] + filename):
-            return make_response(jsonify(status=404, msg="Cannot find <id={filename}> in {path}".format(filename=filename, path=path)),404)
+        #if not os.path.exists(path + ('\\','/')[current_app.config.get('OS_WIN')] + filename):
+            #return make_response(jsonify(status=404, msg="Cannot find <id={filename}> in {path}".format(filename=filename, path=path)),404)
         return send_from_directory(path,filename)
 
 
 class Default(Resource):
     def get(self):
+        # return redirect("http://www.example.com", code=302)
         headers = {'Content-Type': 'text/html'}
         return make_response(render_template('index.html'),200,headers)
