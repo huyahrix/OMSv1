@@ -48,8 +48,8 @@ class Login(Resource):
     def post(self):
         if request.method == 'POST':
             data = request.get_json()
-            # data = {"data": encrypt()}
-            # print('hash: {}'.format(data))
+            #data = {"data": encrypt()}
+            #print('hash: {}'.format(data))
             try:
                 plainText = decryptData(data['data'])
                 if plainText:

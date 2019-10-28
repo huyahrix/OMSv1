@@ -16,7 +16,7 @@ from flask_jwt_extended import (
 from flask import request,jsonify,Response, make_response
 from flask_api import status
 import json
-from api.resources.system import getUserMenu, getCustomizeMenu
+from api.resources.system import getUserMenu, getCustomizeMenu, GetBookmarkMenu
 
 
 class Side_navigation_menu(Resource):
@@ -37,6 +37,16 @@ class Customize_menu(Resource):
     def get(self):
         user_id = get_jwt_identity()
         data = getCustomizeMenu(user_id)
+        if data is None:
+           return make_response(jsonify(status=503,msg='Service Unavailable'),503)
+        return make_response(jsonify(status=200,msg='',data=data),200)
+
+
+class Bookmarks_menu(Resource):
+    @jwt_required
+    def get(self):
+        user_id = get_jwt_identity()
+        data = GetBookmarkMenu(user_id)
         if data is None:
            return make_response(jsonify(status=503,msg='Service Unavailable'),503)
         return make_response(jsonify(status=200,msg='',data=data),200)

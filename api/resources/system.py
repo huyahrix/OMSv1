@@ -61,3 +61,25 @@ def getCustomizeMenu(userId):
     except pyodbc.Error as ex:
         logging.error(ex.args[1])
         return None
+
+
+def GetBookmarkMenu(userId):
+    strSQL = """
+    select [b].[menu_id], 
+    CASE WHEN b.bookmark_type = 'custom' THEN c.menu_title ELSE m.menu_name END as menu_name, 
+    CASE WHEN b.bookmark_type = 'custom' THEN 'fa fa-th' ELSE m.menu_icon END as menu_icon, 
+    CASE WHEN b.bookmark_type = 'custom' THEN c.menu_url ELSE m.form_active END as form_active, 
+    CASE WHEN b.bookmark_type = 'custom' THEN c.target ELSE '' END as target, 
+    CASE WHEN m.is_old_menu = 1 THEN m.url ELSE (CASE WHEN c.menu_type = 1 THEN c.menu_url ELSE '' END) END as url, 
+    CASE WHEN b.bookmark_type IS NULL THEN 0 ELSE 1 END as order_type, [b].[display_order] 
+    from [BookmarkMenu] as [b] left join [MainMenu] as [m] on [m].[menu_id] = [b].[menu_id] 
+    left join [customize_bookmark_menu] as [c] on [b].[menu_id] = CONVERT(varchar, c.custom_id) 
+    where [b].[user_id] = '{}' order by [b].[display_order] asc, [order_type] desc""".format(userId)
+    try:
+        cursor.execute(strSQL)
+        result = cursor.fetchall()
+        data = [dict(zip([key[0] for key in cursor.description], row)) for row in result]
+        return data
+    except pyodbc.Error as ex:
+        logging.error(ex.args[1])
+        return None

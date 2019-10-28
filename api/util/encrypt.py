@@ -20,7 +20,7 @@ def encrypt():
 		compatibleWeekDay = 0
 	passPhrase = dailyHashes[compatibleWeekDay]
 	print('pass phrase: ', passPhrase)
-	return aes256().encrypt(json.dumps({ "username": "DINHTHIEN", "password": "@abc123@"}), passPhrase).decode()
+	return aes256().encrypt(json.dumps({ "username": "usertest", "password": "123456"}), passPhrase).decode()
 
 
 if __name__ == '__main__':
