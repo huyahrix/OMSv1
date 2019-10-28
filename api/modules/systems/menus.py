@@ -16,7 +16,7 @@ from flask_jwt_extended import (
 from flask import request,jsonify,Response, make_response
 from flask_api import status
 import json
-from .systems_data.system import getUserMenu
+from api.resources.system import getUserMenu
 
 
 class Menu(Resource):

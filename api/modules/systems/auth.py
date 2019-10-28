@@ -24,7 +24,7 @@ from api.util.blacklist_helpers import (
 from datetime import datetime 
 import json
 from api.util.decrypt import decryptData
-from .systems_data.system import getUserInfo, verifyPassword
+from api.resources.system import getUserInfo, verifyPassword
 from api.util.encrypt import encrypt
 
 BLANK_ERROR = "'{}' cannot be blank."
