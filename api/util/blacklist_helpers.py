@@ -65,15 +65,17 @@ def is_token_revoked(decoded_token):
         return False
 
 
-def get_user_tokens(user_identity):
+def get_user_tokens(token_id):
     """
     Returns all of the tokens, revoked and unrevoked, that are stored for the
     given user
     """
+    sql_query="SELECT * FROM token_blacklist WHERE token_blacklist.token_id = '{}' ".format(token_id)
     try:
-        sql_query="SELECT * FROM token_blacklist"
         cursor.execute(sql_query)
-        return cursor.fetchall()
+        result = cursor.fetchone()
+        #data = [dict(zip([key[0] for key in cursor.description], row)) for row in result]
+        return result
     except pyodbc.Error as ex:
         logging.error(ex.args[1])
         return None

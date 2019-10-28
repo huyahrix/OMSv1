@@ -42,7 +42,6 @@ def getUserMenu(userId):
     except pyodbc.Error as ex:
         logging.error(ex.args[1])
         return None
-    
 
 
 def verifyPassword(password, dbHash):
@@ -50,6 +49,7 @@ def verifyPassword(password, dbHash):
 	    return True
 	else:
 	    return False
+
 
 def getCustomizeMenu(userId):
     strSQL = """select * from [customize_bookmark_menu] where [user_id] = '{}'""".format(userId)

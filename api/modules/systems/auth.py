@@ -27,12 +27,12 @@ from api.util.decrypt import decryptData
 from api.resources.system import getUserInfo, verifyPassword
 from api.util.encrypt import encrypt
 
-BLANK_ERROR = "'{}' cannot be blank."
+BLANK_ERROR =          "'{}' cannot be blank."
 CREATED_SUCCESSFULLY = "User created successfully."
-USER_NOT_FOUND = "User not found."
-INCORRECT_PASWORD = "Incorrect  password"
-CANNOT_DECRYPT_DATA = "Cannot decrypt data"
-SERVICE_UNAVAILABLE = "Service Unavailable"
+USER_NOT_FOUND =       "invalid username or password"
+INCORRECT_PASWORD =    "invalid username or password"
+CANNOT_DECRYPT_DATA =  "Cannot decrypt data"
+SERVICE_UNAVAILABLE =  "Service Unavailable"
 
 _user_parser = reqparse.RequestParser()
 _user_parser.add_argument(
@@ -41,7 +41,6 @@ _user_parser.add_argument(
 _user_parser.add_argument(
     "password", type=str, required=True, help=BLANK_ERROR.format("password")
 )
-
 
 # Login endpoint
 class Login(Resource):
@@ -118,6 +117,26 @@ class Logout(Resource):
         return make_response(jsonify(status=status.HTTP_200_OK, msg="User <id={}> successfully logged out.".format(user_id)),200)
 
 
+# Check token
+# 
+class Check(Resource):
+    @jwt_required
+    def get(self):
+        current_user = get_jwt_identity()
+        try:
+            decoded_access_token = get_raw_jwt()
+            token_id = decoded_access_token['jti']
+            data = get_user_tokens(token_id)
+            response_data = {}
+            response_data['access_token_id'] = data.token_id
+            response_data['access_token_createdAt'] = data.createAt
+            response_data['access_token_updatedAt'] = data.updateAt
+            response_data['access_token_expiredAt'] = data.expiresAt
+            return make_response(jsonify(status = 200,msg='',data=response_data), 200)
+        except:
+           return make_response(jsonify(status=400,msg='Bad request'),400)
+
+
 # Standard refresh endpoint. A blacklisted refresh token
 # will not be able to access this endpoint
 class Refresh(Resource):
@@ -163,5 +182,3 @@ class ModifyToken(Resource):
                 return make_response(jsonify(status=200, msg='Token unrevoked'), 200)
         except:
             return make_response(jsonify(status=404, msg='The specified token was not found'), 404)
-
-
