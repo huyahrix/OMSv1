@@ -1,6 +1,6 @@
 import os
 from flask import Flask,send_from_directory
-from api.configs.flask_config import config_by_name
+from api.configs.config import config_by_name
 
 def create_app():
     app = Flask(__name__,static_url_path='')

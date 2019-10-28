@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_jwt_extended import decode_token
 from api.util.exceptions import TokenNotFound
-from api.configs.db_config import cursor,cnxn 
+from api.configs.db import cursor,cnxn 
 import pyodbc,logging
 
 

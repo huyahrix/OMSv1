@@ -19,7 +19,7 @@ import json
 from api.resources.system import getUserMenu
 
 
-class Menu(Resource):
+class Side_navigation_menu(Resource):
     @jwt_required
     def get(self):
         if request.method == 'GET':
