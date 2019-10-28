@@ -51,3 +51,13 @@ def verifyPassword(password, dbHash):
 	else:
 	    return False
 
+def getCustomizeMenu(userId):
+    strSQL = """select * from [customize_bookmark_menu] where [user_id] = '{}'""".format(userId)
+    try:
+        cursor.execute(strSQL)
+        result = cursor.fetchall()
+        data = [dict(zip([key[0] for key in cursor.description], row)) for row in result]
+        return data
+    except pyodbc.Error as ex:
+        logging.error(ex.args[1])
+        return None
