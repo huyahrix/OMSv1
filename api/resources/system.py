@@ -4,8 +4,10 @@ import bcrypt
 import json
 from api.configs.db import cursor, cnxn
 
+#
+#   auth
+#
 def getUserInfo(userName):
-	#strSQL = "select * from users where user_login_name LIKE '{userName}' and status = 0".format(userName=userName)
     str_query ="""SELECT * from users 
                 INNER JOIN  employees ON user_id = emp_id 
                 LEFT JOIN mailgroup ON director_emp_id = emp_id 
@@ -19,6 +21,16 @@ def getUserInfo(userName):
         return None
 
 
+def verifyPassword(password, dbHash):
+	if bcrypt.checkpw(password.encode("utf8"), dbHash.encode("utf8")):
+	    return True
+	else:
+	    return False
+
+
+#
+#   menu
+#
 def getUserMenu(userId):
     str_query ="""select [g].[module_group_id], [g].[module_group_name] as [module_group], 
                 [f].[module_id], [m].[module_name], [m].[module_icon], [m].[module_display_order], [f].[menu_id] as [form_id], [f].[menu_name] as [form_name], 
@@ -40,13 +52,6 @@ def getUserMenu(userId):
     except pyodbc.Error as ex:
         logging.error(ex.args[1])
         return None
-
-
-def verifyPassword(password, dbHash):
-	if bcrypt.checkpw(password.encode("utf8"), dbHash.encode("utf8")):
-	    return True
-	else:
-	    return False
 
 
 def getCustomizeMenu(userId):
@@ -83,7 +88,7 @@ def GetBookmarkMenu(userId):
 
 
 #
-# sessions
+#   session
 #
 def CreateSessions(sessions):
     str_query ="""insert into [sessions] ([SessionID], [UserID], [DateTimeLogin], [IPAddress], [ServerID]) 
