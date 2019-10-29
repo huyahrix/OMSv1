@@ -36,14 +36,14 @@ class Config:
         # app = Flask(__name__, template_folder= "templates")
     
     IMAGE_UPLOADS = "/static/images/uploads"
+    STATIC_FOLDER = basedir.replace('configs','static')
+    TEMPLATES_FOLDER = basedir.replace('configs','templates')
     if bool("win" in sys.platform):
         OS_WIN = True
-        STATIC_FOLDER = basedir.replace('configs','static')
-        TEMPLATES_FOLDER = basedir.replace('configs','templates')
     else:
         OS_WIN = False
-        STATIC_FOLDER = basedir.replace('configs','static')
-        TEMPLATES_FOLDER = basedir.replace('configs','templates')
+        #STATIC_FOLDER = basedir.replace('configs','static')
+        #TEMPLATES_FOLDER = basedir.replace('configs','templates')
 
 class DevelopmentConfig(Config):
     DEBUG = True
