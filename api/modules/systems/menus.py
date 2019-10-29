@@ -21,10 +21,7 @@ from api.resources.system import getUserMenu, getCustomizeMenu, GetBookmarkMenu
 class Side_navigation_menu(Resource):
     @jwt_required
     def get(self):
-        # if request.method == 'GET':
         user_id = get_jwt_identity()
-        # if not user_id :
-        #     return make_response(jsonify(status=404,msg='user not found.'),404)
         data = getUserMenu(user_id)
         if data is None:
            return make_response(jsonify(status=503,msg='Service Unavailable'),503)

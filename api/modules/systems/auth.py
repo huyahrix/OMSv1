@@ -1,5 +1,5 @@
 #  @copyright 2019 © DigiNet
-#  @author Andy Trần Đào Anh
+#  @author ahrix<infjnite@gmail.com>
 #  @create 2019/10/04 10:51
 #  @update 2019/10/04 10:51
 
@@ -16,16 +16,17 @@ from flask_jwt_extended import (
     get_raw_jwt,
     decode_token
 )
+from datetime import datetime 
+import time   
+import json
+from api.util.decrypt import decryptData
+from api.util.encrypt import encrypt
 from api.util.blacklist_helpers import (
     is_token_revoked, add_token_to_database, get_user_tokens,
     revoke_token, unrevoke_token,
     prune_database
 )
-from datetime import datetime 
-import json
-from api.util.decrypt import decryptData
-from api.resources.system import getUserInfo, verifyPassword
-from api.util.encrypt import encrypt
+from api.resources.system import getUserInfo, verifyPassword, CreateSessions, GetSesionID
 
 BLANK_ERROR =          "'{}' cannot be blank."
 CREATED_SUCCESSFULLY = "User created successfully."
@@ -70,7 +71,7 @@ class Login(Resource):
                             userInfo['userID'] = userData.user_id
                             userInfo['userName'] = userData.user_login_name
                             userInfo['departmentID'] = userData.group_id
-                            userInfo['dateOfBirth'] = userData.emp_birth_date
+                            userInfo['dateOfBirth'] = userData.emp_birth_date.strftime('%Y-%m-%d %H:%M:%S')
                             userInfo['idCard'] = userData.emp_idcard_num
                             userInfo['height'] = userData.emp_height
                             userInfo['weight'] = userData.emp_weight
@@ -84,15 +85,29 @@ class Login(Resource):
                             decoded_refresh_token = decode_token(refresh_token)
                             data = {}
                             data['access_token_id'] = decoded_access_token['jti']
-                            data['access_token_createdAt'] = datetime.now()
-                            data['access_token_updatedAt'] = datetime.now()
-                            data['access_token_expiredAt'] = datetime.fromtimestamp(decoded_access_token['exp'])
+                            data['access_token_createdAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                            data['access_token_updatedAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                            data['access_token_expiredAt'] = datetime.fromtimestamp(decoded_access_token['exp']).strftime('%Y-%m-%d %H:%M:%S')
                             data['refresh_token_id'] = decoded_refresh_token['jti']
-                            data['refresh_token_createdAt'] = datetime.now()
-                            data['refresh_token_updatedAt'] = datetime.now()
-                            data['refresh_token_expiredAt'] = datetime.fromtimestamp(decoded_refresh_token['exp'])
-
-                            return make_response(jsonify(status = 200, msg = "", sessionID = "0001", userInfo = userInfo, access_token = access_token, refresh_token = refresh_token,data=data),200)
+                            data['refresh_token_createdAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                            data['refresh_token_updatedAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                            data['refresh_token_expiredAt'] = datetime.fromtimestamp(decoded_refresh_token['exp']).strftime('%Y-%m-%d %H:%M:%S')
+                            # create session
+                            session = {}
+                            old_session = GetSesionID()
+                            if old_session:
+                                session_id = int(old_session.SessionID) + 1
+                            else:
+                                session_id = str(int(datetime.now().year) * 10000 + int(datetime.now().month) * 100 + int(datetime.now().day)) + '00000'
+                            session['SessionID'] = session_id
+                            session['UserID'] = userData.user_id
+                            session['DateTimeLogin'] = time.strftime('%Y-%m-%d %H:%M:%S')
+                            session['IPAddress'] = request.remote_addr
+                            session['ServerID'] = 'B'
+                            if CreateSessions(session):
+                                return make_response(jsonify(status = 200, msg = "", sessionID = session['SessionID'], userInfo = userInfo, access_token = access_token, refresh_token = refresh_token,data=data),200)
+                            else:
+                                return make_response(jsonify(status=400,msg=''),400)
                         else:
                             return make_response(jsonify(status=404,msg=INCORRECT_PASWORD),404)
                     else:
