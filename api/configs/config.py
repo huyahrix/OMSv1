@@ -42,8 +42,6 @@ class Config:
         OS_WIN = True
     else:
         OS_WIN = False
-        #STATIC_FOLDER = basedir.replace('configs','static')
-        #TEMPLATES_FOLDER = basedir.replace('configs','templates')
 
 class DevelopmentConfig(Config):
     DEBUG = True
