@@ -20,27 +20,26 @@ import os
 
 class Serve_static(Resource):
     def get(self,filename):
-        path = current_app.config.get('STATIC_FOLDER')
-        if '.js' in filename:
-            if current_app.config.get('OS_WIN'):
-                path = current_app.config['STATIC_FOLDER'] + '\\js'
-            else:
-                path = current_app.config['STATIC_FOLDER'] + '/js'
+        try :
+            path = current_app.config.get('STATIC_FOLDER')
+            if '.js' in filename:
+                if current_app.config.get('OS_WIN'):
+                    path = current_app.config['STATIC_FOLDER'] + '\\js'
+                else:
+                    path = current_app.config['STATIC_FOLDER'] + '/js'
             filename = filename.replace('js/','')
-        if '.svg' in filename:
-            if current_app.config.get('OS_WIN'):
-                path = current_app.config['STATIC_FOLDER'] + '\\images'
-            else:
-                path = current_app.config['STATIC_FOLDER'] + '/images'
-            filename = filename.replace('images/','')
-
-        #if not os.path.exists(path + ('\\','/')[current_app.config.get('OS_WIN')] + filename):
-            #return make_response(jsonify(status=404, msg="Cannot find <id={filename}> in {path}".format(filename=filename, path=path)),404)
-        return send_from_directory(path,filename)
+            if '.svg' in filename:
+                if current_app.config.get('OS_WIN'):
+                    path = current_app.config['STATIC_FOLDER'] + '\\images'
+                else:
+                    path = current_app.config['STATIC_FOLDER'] + '/images'
+                    filename = filename.replace('images/','')
+            return send_from_directory(path,filename)
+        except:
+            return make_response(jsonify(status=404,msg='resources not found'),404)
 
 
 class Default(Resource):
     def get(self):
-        # return redirect("http://www.example.com", code=302)
         headers = {'Content-Type': 'text/html'}
         return make_response(render_template('index.html'),200,headers)
