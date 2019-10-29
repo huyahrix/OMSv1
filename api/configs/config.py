@@ -34,17 +34,14 @@ class Config:
     # By default Flask template_folder set to 'templates'
     # Flask configures the Jinja2 template engine automatically
         # app = Flask(__name__, template_folder= "templates")
+    
     IMAGE_UPLOADS = "/static/images/uploads"
     if bool("win" in sys.platform):
         OS_WIN = True
-        # STATIC_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\static'
-        # TEMPLATES_FOLDER = 'd:\\Privite\\Python\\OMSv1\\api\\templates'
         STATIC_FOLDER = basedir.replace('configs','static')
         TEMPLATES_FOLDER = basedir.replace('configs','templates')
     else:
         OS_WIN = False
-        # STATIC_FOLDER = '/home/diginet/myproject/OMSv1/api/static'
-        # TEMPLATES_FOLDER = '/home/diginet/myproject/OMSv1/api/templates'
         STATIC_FOLDER = basedir.replace('configs','static')
         TEMPLATES_FOLDER = basedir.replace('configs','templates')
 
