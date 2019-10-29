@@ -143,9 +143,9 @@ class Check(Resource):
             data = get_user_tokens(token_id)
             response_data = {}
             response_data['access_token_id'] = data.token_id
-            response_data['access_token_createdAt'] = data.createAt
-            response_data['access_token_updatedAt'] = data.updateAt
-            response_data['access_token_expiredAt'] = data.expiresAt
+            response_data['access_token_createdAt'] = data.createAt.strftime('%Y-%m-%d %H:%M:%S')
+            response_data['access_token_updatedAt'] = data.updateAt.strftime('%Y-%m-%d %H:%M:%S')
+            response_data['access_token_expiredAt'] = data.expiresAt.strftime('%Y-%m-%d %H:%M:%S')
             return make_response(jsonify(status = 200,msg='',data=response_data), 200)
         except:
            return make_response(jsonify(status=400,msg='Bad request'),400)
@@ -164,9 +164,9 @@ class Refresh(Resource):
             decoded_access_token = decode_token(new_token)
             data = {}
             data['access_token_id'] = decoded_access_token['jti']
-            data['access_token_createdAt'] = datetime.now()
-            data['access_token_updatedAt'] = datetime.now()
-            data['access_token_expiredAt'] = datetime.fromtimestamp(decoded_access_token['exp'])
+            data['access_token_createdAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            data['access_token_updatedAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            data['access_token_expiredAt'] = datetime.fromtimestamp(decoded_access_token['exp']).strftime('%Y-%m-%d %H:%M:%S')
             return make_response(jsonify(status = 200,msg='',access_token=new_token,data=data), 200)
         except:
             return make_response(jsonify(status=400,msg='Bad request'),400)
