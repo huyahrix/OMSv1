@@ -5,12 +5,6 @@ from api.modules.serve.serve import Serve_static, Default
 def register_routes(api):
 
     # Serving static files
-    # routes = [
-    #     '/<string:filename>',               # webpack file
-    #     '/public/images/<string:filename>', # webpack file
-    #     '/static/<path:filename>',
-    #     ]
-    
     default = [
         '/',
         '/login'

@@ -133,7 +133,6 @@ class Logout(Resource):
 
 
 # Check token
-# 
 class Check(Resource):
     @jwt_required
     def get(self):
